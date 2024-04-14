@@ -2,10 +2,22 @@ import { useState } from 'react'
 import './App.css'
 
 
+const turns = {
+  X: 'x',
+  O: 'o'
+}
+
 // Square component that will be used to render each square of the board
-const Square = ({ children, updateBoard, index }) => {
+const Square = ({ children, isSelected, updateBoard, index }) => {
+
+  const className = `square ${isSelected ? 'is-selected' : ''}`;
+
+  const handleClick = () => {
+    updateBoard(index)
+  }
+
   return (
-    <div className='square'>
+    <div className={className} onClick={handleClick}>
       {children}
     </div>
   )
@@ -14,7 +26,14 @@ const Square = ({ children, updateBoard, index }) => {
 function App() {
 
   // Create a state variable to hold the board state
-  const [board, setBoard] = useState(['x', 'o', 'x', 'o', 'x', 'o', 'x', 'o', 'x']);
+  const [board, setBoard] = useState(Array(9).fill(null));
+
+  // Create a state variable to hold the current turn
+  const [turn, setTurn] = useState(turns.X);
+
+  const updateBoard = (index) => {
+    console.log(index);
+  }
 
   return (
     <>
@@ -25,13 +44,17 @@ function App() {
             // Loop through the board state and render a Square component for each square
             board.map((a, index) => {
               return (
-                <Square key={index} index={index}>
+                <Square key={index} index={index} updateBoard={updateBoard}>
                   {board[index]}
                 </Square>
               )
 
             })
           }
+        </section>
+        <section className='turn'>
+          <Square isSelected={turn === turns.X}> {turns.X} </Square>
+          <Square isSelected={turn === turns.O}> {turns.O} </Square>
         </section>
       </main>
     </>
