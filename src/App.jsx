@@ -1,27 +1,11 @@
 import { useState } from 'react'
 import './App.css'
+import { Square } from './components/Square'
 
 
 const turns = {
   X: 'x',
   O: 'o'
-}
-
-// Square component that will be used to render each square of the board
-// eslint-disable-next-line react/prop-types
-const Square = ({ children, isSelected, updateBoard, index }) => {
-
-  const className = `square ${isSelected ? 'is-selected' : ''}`;
-
-  const handleClick = () => {
-    updateBoard(index)
-  }
-
-  return (
-    <div className={className} onClick={handleClick}>
-      {children}
-    </div>
-  )
 }
 
 const winnerCombos = [
