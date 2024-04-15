@@ -48,18 +48,22 @@ function App() {
     // Check if there is a winner
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
-      alert(`Player ${newWinner} wins!`);
       setWinner(newWinner);
       return;
     }
     if(newWinner === false){
-      alert('It\'s a tie!');
       setWinner(false);
       return;
     }
     // Change the turn
     const newTurn = turn === turns.X ? turns.O : turns.X;
     setTurn(newTurn);
+  }
+
+  const resetGame = () => {
+    setBoard(Array(9).fill(null));
+    setTurn(turns.X);
+    setWinner(null);
   }
 
   return (
@@ -83,6 +87,25 @@ function App() {
           <Square isSelected={turn === turns.X}> {turns.X} </Square>
           <Square isSelected={turn === turns.O}> {turns.O} </Square>
         </section>
+        {
+          winner !== null &&  (
+            <section className='winner'>
+              <div className='text'>
+                <h2>
+                  {
+                    winner === false ? 'It\'s a tie!' : `Player ${winner} wins!`
+                  }
+                </h2>
+                  <header className='win'>
+                    {<Square>{winner ? winner : "Tie"}</Square>}
+                  </header>
+                  <footer>
+                    <button onClick={resetGame}>Restart game</button>
+                  </footer>
+              </div>
+            </section>
+          )
+        }
       </main>
     </>
   )
