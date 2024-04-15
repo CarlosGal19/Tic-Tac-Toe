@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import './App.css'
 import { Square } from './components/Square'
+import './App.css'
 
 
 const turns = {
-  X: 'x',
-  O: 'o'
+  X: 'X',
+  O: 'O'
 }
 
 const winnerCombos = [
@@ -33,6 +33,9 @@ function App() {
         return boardToCkeck[a];
       }
     }
+    if(boardToCkeck.every((square) => square)){
+      return false;
+    }
     return null;
   }
 
@@ -45,7 +48,13 @@ function App() {
     // Check if there is a winner
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
+      alert(`Player ${newWinner} wins!`);
       setWinner(newWinner);
+      return;
+    }
+    if(newWinner === false){
+      alert('It\'s a tie!');
+      setWinner(false);
       return;
     }
     // Change the turn
