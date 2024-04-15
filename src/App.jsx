@@ -54,12 +54,9 @@ function App() {
 
   const updateBoard = (index) => {
     // Create a new array with the updated value
-    const newBoard = board.map((value, i) => {
-      if (i === index && !value && !winner) {
-        return turn;
-      }
-      return value;
-    });
+    if(board[index] || winner) return;
+    const newBoard = [...board];
+    newBoard[index] = turn;
     setBoard(newBoard);
     // Check if there is a winner
     const newWinner = checkWinner(newBoard);
