@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Square } from './components/Square'
 import './App.css'
+import confetti from 'canvas-confetti'
 
 
 const turns = {
@@ -48,6 +49,7 @@ function App() {
     // Check if there is a winner
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
+      confetti();
       setWinner(newWinner);
       return;
     }
