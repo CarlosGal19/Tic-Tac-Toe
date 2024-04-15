@@ -24,6 +24,12 @@ const Square = ({ children, isSelected, updateBoard, index }) => {
   )
 }
 
+const winnerCombos = [
+  [0, 1, 2], [3, 4, 5], [6, 7, 8], // Horizontal
+  [0, 3, 6], [1, 4, 7], [2, 5, 8], // Vertical
+  [0, 4, 8], [2, 4, 6] // Diagonal
+]
+
 function App() {
 
   // Create a state variable to hold the board state
@@ -32,15 +38,35 @@ function App() {
   // Create a state variable to hold the current turn
   const [turn, setTurn] = useState(turns.X);
 
+  // Create a state variable to hold the winner. Null means there is no winner yet. False means it's a tie.
+  const [winner, setWinner] = useState(null);
+
+  // Check if there is a winner
+  const checkWinner = ( boardToCkeck ) => {
+    for (const combo of winnerCombos) {
+      const [a, b, c] = combo;
+      if (boardToCkeck[a] && boardToCkeck[a] === boardToCkeck[b] && boardToCkeck[a] === boardToCkeck[c]) {
+        return boardToCkeck[a];
+      }
+    }
+    return null;
+  }
+
   const updateBoard = (index) => {
     // Create a new array with the updated value
     const newBoard = board.map((value, i) => {
-      if (i === index && !value) {
+      if (i === index && !value && !winner) {
         return turn;
       }
       return value;
     });
     setBoard(newBoard);
+    // Check if there is a winner
+    const newWinner = checkWinner(newBoard);
+    if (newWinner) {
+      setWinner(newWinner);
+      return;
+    }
     // Change the turn
     const newTurn = turn === turns.X ? turns.O : turns.X;
     setTurn(newTurn);
