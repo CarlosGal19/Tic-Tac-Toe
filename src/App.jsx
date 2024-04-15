@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Square } from './components/Square'
+import { Winner } from './components/Winner'
 import './App.css'
 import confetti from 'canvas-confetti'
 import { turns, checkWinner } from './utils'
@@ -66,25 +67,7 @@ function App() {
           <Square isSelected={turn === turns.X}> {turns.X} </Square>
           <Square isSelected={turn === turns.O}> {turns.O} </Square>
         </section>
-        {
-          winner !== null &&  (
-            <section className='winner'>
-              <div className='text'>
-                <h2>
-                  {
-                    winner === false ? 'It\'s a tie!' : `Player ${winner} wins!`
-                  }
-                </h2>
-                  <header className='win'>
-                    {<Square>{winner ? winner : "Tie"}</Square>}
-                  </header>
-                  <footer>
-                    <button onClick={resetGame}>Restart game</button>
-                  </footer>
-              </div>
-            </section>
-          )
-        }
+        <Winner winner={winner} resetGame={resetGame} />
       </main>
     </>
   )
