@@ -8,12 +8,13 @@ const turns = {
 }
 
 // Square component that will be used to render each square of the board
+// eslint-disable-next-line react/prop-types
 const Square = ({ children, isSelected, updateBoard, index }) => {
 
   const className = `square ${isSelected ? 'is-selected' : ''}`;
 
   const handleClick = () => {
-    updateBoard()
+    updateBoard(index)
   }
 
   return (
@@ -31,7 +32,16 @@ function App() {
   // Create a state variable to hold the current turn
   const [turn, setTurn] = useState(turns.X);
 
-  const updateBoard = () => {
+  const updateBoard = (index) => {
+    // Create a new array with the updated value
+    const newBoard = board.map((value, i) => {
+      if (i === index && !value) {
+        return turn;
+      }
+      return value;
+    });
+    setBoard(newBoard);
+    // Change the turn
     const newTurn = turn === turns.X ? turns.O : turns.X;
     setTurn(newTurn);
   }
