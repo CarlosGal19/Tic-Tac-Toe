@@ -8,10 +8,23 @@ import { turns, checkWinner } from './utils'
 function App() {
 
   // Create a state variable to hold the board state
-  const [board, setBoard] = useState(Array(9).fill(null));
+  const [board, setBoard] = useState(() => {
+    const savedBoard = localStorage.getItem('board');
+    if(savedBoard){
+      return JSON.parse(savedBoard);
+    }
+    return Array(9).fill(null);
+  });
 
   // Create a state variable to hold the current turn
-  const [turn, setTurn] = useState(turns.X);
+  const [turn, setTurn] = useState(() => {
+    const savedTurn = localStorage.getItem('turn');
+    if(savedTurn){
+      return savedTurn;
+    }
+    return turns.X;
+
+  });
 
   // Create a state variable to hold the winner. Null means there is no winner yet. False means it's a tie.
   const [winner, setWinner] = useState(null);
@@ -22,27 +35,36 @@ function App() {
     const newBoard = [...board];
     newBoard[index] = turn;
     setBoard(newBoard);
+    // Save player's move in local storage
+    localStorage.setItem('board', JSON.stringify(newBoard));
     // Check if there is a winner
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
+      localStorage.removeItem('board');
+      localStorage.removeItem('turn');
       confetti();
       setWinner(newWinner);
       return;
     }
     if(newWinner === false){
+      localStorage.removeItem('board');
+      localStorage.removeItem('turn');
       setWinner(false);
       return;
     }
     // Change the turn
     const newTurn = turn === turns.X ? turns.O : turns.X;
     setTurn(newTurn);
+    localStorage.setItem('turn', newTurn);
   }
 
-  // Reset the game to the initial state
+  // Reset the game to the initial state and clear the local storage
   const resetGame = () => {
     setBoard(Array(9).fill(null));
     setTurn(turns.X);
     setWinner(null);
+    localStorage.removeItem('board');
+    localStorage.removeItem('turn');
   }
 
   return (
