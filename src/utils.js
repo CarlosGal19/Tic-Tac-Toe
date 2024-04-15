@@ -22,3 +22,8 @@ export const checkWinner = ( boardToCkeck ) => {
     }
     return null;
   }
+
+export const removedLocalStorage = () => {
+  localStorage.removeItem('board');
+  localStorage.removeItem('turn');
+}

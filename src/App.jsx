@@ -3,7 +3,7 @@ import { Square } from './components/Square'
 import { Winner } from './components/Winner'
 import './App.css'
 import confetti from 'canvas-confetti'
-import { turns, checkWinner } from './utils'
+import { turns, checkWinner, removedLocalStorage } from './utils'
 
 function App() {
 
@@ -40,15 +40,13 @@ function App() {
     // Check if there is a winner
     const newWinner = checkWinner(newBoard);
     if (newWinner) {
-      localStorage.removeItem('board');
-      localStorage.removeItem('turn');
+      removedLocalStorage();
       confetti();
       setWinner(newWinner);
       return;
     }
     if(newWinner === false){
-      localStorage.removeItem('board');
-      localStorage.removeItem('turn');
+      removedLocalStorage();
       setWinner(false);
       return;
     }
@@ -63,8 +61,7 @@ function App() {
     setBoard(Array(9).fill(null));
     setTurn(turns.X);
     setWinner(null);
-    localStorage.removeItem('board');
-    localStorage.removeItem('turn');
+    removedLocalStorage();
   }
 
   return (
