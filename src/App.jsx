@@ -60,6 +60,7 @@ function App() {
     setTurn(newTurn);
   }
 
+  // Reset the game to the initial state
   const resetGame = () => {
     setBoard(Array(9).fill(null));
     setTurn(turns.X);
@@ -70,6 +71,7 @@ function App() {
     <>
       <main className='board'>
         <h1>Tic-Tac-Toe</h1>
+        <button onClick={resetGame}>Reset game</button>
         <section className='game'>
           {
             // Loop through the board state and render a Square component for each square
